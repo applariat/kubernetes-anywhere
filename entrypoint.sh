@@ -26,6 +26,14 @@ then
 
 	CLOUD_PROVIDER=${CLOUD_PROVIDER?Error \$CLOUD_PROVIDER is not defined.}
 
+	if [ -d "/dropbox" ];
+	then
+		# Since some needed files are in directories and docker can't mount individaul files, we
+		# will copy anything found in /dropbox to /opt/kubernetes-anywhere
+		# This only matters in docker. Kubernetes can mount files in directories.
+		cp -vR /dropbox/* /opt/kubernetes-anywhere/
+	fi
+
 	if [ -n "$DELETE_CLUSTER" ];
 	then
 		./phase1/${CLOUD_PROVIDER}/cloud_storage.py --download

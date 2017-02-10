@@ -3,5 +3,6 @@
 .config.old
 .config.json
 **/kubeconfig.json
-*.pyc
+**/*.pyc
 .idea
+dropbox
