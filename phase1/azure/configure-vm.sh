@@ -17,11 +17,21 @@ ExecStart=/usr/bin/docker daemon -H fd:// --storage-driver=overlay
 EOF
 
 # start hacky workaround (https://github.com/docker/docker/issues/23793)
-  curl -sSL https://get.docker.com/ > /tmp/install-docker
-  chmod +x /tmp/install-docker
-  /tmp/install-docker || true
-  systemctl start docker || true
+#  curl -sSL https://get.docker.com/ > /tmp/install-docker
+#  chmod +x /tmp/install-docker
+#  /tmp/install-docker || true
+#  systemctl start docker || true
 # end hacky workaround
+#
+
+apt-get update
+apt-get install -y apt-transport-https ca-certificates
+apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" > /etc/apt/sources.list.d/docker.list
+apt-get update
+apt-get install -y docker-engine=1.12.*
+apt-mark hold docker-engine
+systemctl restart docker
 
 apt-get install -y jq
 
